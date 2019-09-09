@@ -1,0 +1,16 @@
+{
+  "name": "master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "master.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bull": "^3.10.0",
+    "dotenv": "^8.1.0",
+    "nodemon": "^1.19.2"
+  }
+}

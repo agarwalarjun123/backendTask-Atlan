@@ -29,9 +29,12 @@ const data = [
 	}
 ]
 const write = async ()=>{
-	for(let i=0;i<10000;i++)
+	for(let i=0;i<600000;i++)
 		await csvWriter
 			.writeRecords(data)
 
 }
+
+write()
+
 module.exports = write

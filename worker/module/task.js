@@ -14,20 +14,18 @@ const countrows = (file)=>{
 	})
 }
 
-countrows("./task.csv")
 const doTask = (file)=>{
 	return new Promise((resolve,reject)=>{
+		let i =1
 		fs.createReadStream(file)
 			.pipe(csv())
 			.on("data",(row)=>{
-				console.log(row)
-				save()
+				console.log(`row ${i++}`)
 			})
 			.on("end",()=>{
 
 				console.log("task done successfully")
                 
-				endTask()
                 
 				return resolve()
 			})
@@ -37,3 +35,6 @@ const doTask = (file)=>{
 	})
 	
 }
+
+
+module.exports = doTask

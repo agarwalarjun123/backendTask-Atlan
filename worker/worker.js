@@ -7,14 +7,17 @@ const numCPUs = require("os").cpus().length
 
 const workers = []
 
+const {handleFeedback} = require("./module/feedback")
+
+
 const masterProcess = ()=>{
 	console.log("master is running")
 
 	for (let i = 0; i < numCPUs; i++) {
 		console.log(`Forking process number ${i}...`)
 		workers.push(cluster.fork())
-		workers[i].on("message",(msg)=>{
-			console.log(msg)
+		workers[i].on("message",async (msg)=>{
+			await handleFeedback(msg)	 
 		})
         
 	}
@@ -24,9 +27,8 @@ const masterProcess = ()=>{
 	cluster.on("exit",(worker,code)=>{
 		console.log(`Worker ${worker.pid} died with ${code}`)
 		workers.push(cluster.fork())
-		workers[workers.length-1].on("message",(msg)=>{
-			if(msg.error)
-				console.log(msg.error)
+		workers[workers.length-1].on("message",async (msg)=>{
+			await handleFeedback(msg)	 
 		})
 	})
 
@@ -34,7 +36,8 @@ const masterProcess = ()=>{
 
 const childProcess = () => {
 	try{
-	    require("./module/exec")
+		require("./module/exec")
+		
 	}
 	catch(e){
 		process.send({error:new Error(e)})

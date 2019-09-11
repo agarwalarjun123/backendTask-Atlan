@@ -11,14 +11,14 @@ app.use(bp.urlencoded({extended:false}))
 
 // connect to mongoDB
 const mongoose = require("mongoose")
-mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true});
+mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true})
 mongoose.connection
 	.once("connected",()=>console.log("Connected to DB"))
 	.on("error",()=>console.log("Error connecting to DB"))
 
 //endpoints
 
-app.use(require("./endpoints/start"))
+app.use(require("./endpoints/index"))
 
 
 app.use((err,req,res,next)=>{
@@ -26,6 +26,6 @@ app.use((err,req,res,next)=>{
 	res.send({err:err.message})
 })
 
-app.listen(process.env.PORT || 3000, ()=>console.log("Listening..."));
+app.listen(process.env.PORT || 3000, ()=>console.log("Listening..."))
 
 module.exports=app

@@ -37,14 +37,10 @@ const masterProcess = ()=>{
 const childProcess = () => {
 	try{
 		require("./module/exec")
-		
 	}
 	catch(e){
 		process.send({error:new Error(e)})
 	}
-    
-        
-
 
 }
 

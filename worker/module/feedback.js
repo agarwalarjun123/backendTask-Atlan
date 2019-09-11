@@ -1,4 +1,4 @@
-const {error_queue,start_feedback,stop_feedback,pause_feedback}  = require("./queue_init")
+const {error_queue,start_feedback,stop_feedback,task_completion}  = require("./queue_init")
 
 const handleFeedback = async (msg) => {
 	if(msg.error)
@@ -8,8 +8,8 @@ const handleFeedback = async (msg) => {
 	else if(msg.stop)
 		await stop_feedback.add({id:msg.stop.id})
 	else 
-		await pause_feedback.add({id:msg.id,stage:msg.stage}) 
+		await task_completion.add({id:msg.id})
 }
 module.exports  = {
 	handleFeedback
-}
+}   

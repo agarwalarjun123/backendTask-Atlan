@@ -6,6 +6,12 @@ const cluster = require("cluster")
 const numCPUs = require("os").cpus().length
 
 const workers = []
+const mongoose = require("mongoose")
+mongoose.connect(process.env.MONGO_URL,{useNewUrlParser:true,useUnifiedTopology: true })
+mongoose.connection
+	.once("connected",()=>console.log("Connected to DB"))
+	.on("error",()=>console.log("Error connecting to DB"))
+
 
 const {handleFeedback} = require("./module/feedback")
 
@@ -35,13 +41,9 @@ const masterProcess = ()=>{
 }
 
 const childProcess = () => {
-	try{
-		require("./module/exec")
-	}
-	catch(e){
-		process.send({error:new Error(e)})
-	}
-
+		
+	require("./module/exec")
+	
 }
 
 if (cluster.isMaster) {

@@ -1,13 +1,14 @@
-const {start_feedback,stop_feedback,error_feedback,task_completion} = require("./queue_init")
+const {start_feedback,stop_feedback,error_queue,task_completion} = require("./queue_init")
 const task = require("./schema/task")
 module.exports = (app)=>{
-	const server = require("http").Server(app)
-	const io = require("socket.io")(server)
+	
+
+	const io = require("socket.io")(app)
+	
 	
 	io.on("connection",(socket)=>{
-
+		console.log(socket.id)
 		start_feedback.process((job)=>{
-
 			task.findByIdAndUpdate(job.data.id,{
 				$set:{
 					pid:job.data.pid,
@@ -44,7 +45,7 @@ module.exports = (app)=>{
 			
 			
 		})
-		error_feedback.process((job)=>{
+		error_queue.process((job)=>{
 			task.findByIdAndUpdate(job.data.id,{
 				$set:{
 					status:`error:${job.data.error}`

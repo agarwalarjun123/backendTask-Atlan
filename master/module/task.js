@@ -1,4 +1,4 @@
-const {start_queue,stop_queue,pause_queue} = require("./queue_init")
+const {start_queue,stop_queue} = require("./queue_init")
 const task = require("./schema/task")
 
 
@@ -13,10 +13,9 @@ const startTask = () => {
 		}).save()
 			.then((e) =>{
 				start_queue.add({id:e.id})
-					.then(()=>{
-						resolve()
-					})
-					.catch((err)=>reject(err))
+					.then(resolve)
+					.then(reject)
+					
 			})  
 			.catch((err) => reject(err))
 	})
@@ -27,6 +26,7 @@ const stopTask = (id) => {
 		if(id){
 			task.findById(id)
 				.then( e =>{
+					console.log(e)
 					if(e)
 						stop_queue.add({id:e.id,pid:e.pid})
 		    				.then(e =>resolve(e))

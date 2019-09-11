@@ -28,7 +28,7 @@ const stopTask = (id) => {
 			task.findById(id)
 				.then( e =>{
 					if(e)
-						stop_queue.add({stop:{id:e.id,process_id:e.process_id}})
+						stop_queue.add({id:e.id,pid:e.pid})
 		    				.then(e =>resolve(e))
 							.catch((err)=>reject(err))
 					else 

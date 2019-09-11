@@ -5,12 +5,12 @@ const killTask = require("./kill")
 
 
 
-const stopTask = (id,pid)=>{
+const stopTask = (pid,id)=>{
 	return new Promise((resolve,reject)=>{
 
 		killTask(pid)
 			.then(e =>{
-				process.send({stop:id})
+				process.send({stop:{id}})
 				return resolve()
 			})
 			.catch((err)=>{
@@ -26,6 +26,8 @@ const stopTask = (id,pid)=>{
 const doTask = (file,id)=>{
 	return new Promise((resolve,reject)=>{
 		let i =1
+		process.send({start:{process_id:process.pid,id}})
+
 		fs.createReadStream(file)
 			.pipe(csv())
 

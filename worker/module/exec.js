@@ -1,16 +1,13 @@
-const {pause_queue,start_queue,stop_queue} = require("./queue_init")
-const {doTask,stopTask,pauseTask} = require("./task")
+const {start_queue,stop_queue} = require("./queue_init")
+const {doTask,stopTask} = require("./task")
 
 
 start_queue.process(async (job) =>{
-	const {stage,id} = job.data
-	await doTask("./task.csv",id,stage)
+	const {id} = job.data
+	await doTask("./task.csv",id)
 })
 stop_queue.process(async (job)=>{
-	await stopTask(job.data.id)
+	await stopTask(job.data.pid,job.data.id)
 	
-})
-pause_queue.process(async (job) =>{
-	return pauseTask(job.data.id)
 })
 

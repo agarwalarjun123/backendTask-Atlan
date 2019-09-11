@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const cors= require("cors")
+const socket =require("./module/socket").default 
 
 // for verbose logging-
 app.use(require("morgan")(process.env.logenv))
@@ -28,5 +29,5 @@ app.use((err,req,res,next)=>{
 })
 
 app.listen(process.env.PORT || 3000, ()=>console.log("Listening..."))
-
+socket(app)
 module.exports=app

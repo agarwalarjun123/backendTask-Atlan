@@ -1,6 +1,7 @@
 const csv = require("csv-parser")
 const {exec} = require("child_process")
 const fs = require("fs")
+const {task} = require("./schema")
 
 
 const countrows = (file)=>{
@@ -21,13 +22,12 @@ const doTask = (file)=>{
 			.pipe(csv())
 			.on("data",(row)=>{
 				console.log(`row ${i++}`)
+				
 			})
 			.on("end",()=>{
-
 				console.log("task done successfully")
-                
-                
 				return resolve()
+
 			})
 			.on("error",(err)=>{
 				return reject(err)
@@ -37,4 +37,7 @@ const doTask = (file)=>{
 }
 
 
-module.exports = doTask
+module.exports = {
+	doTask,
+	countrows
+}

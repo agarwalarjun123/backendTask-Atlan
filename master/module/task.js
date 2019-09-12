@@ -20,13 +20,14 @@ const startTask = () => {
 			.catch((err) => reject(err))
 	})
 }
+
+
 const stopTask = (id) => {
 	return new Promise((resolve,reject)=>{
-		
+
 		if(id){
 			task.findById(id)
 				.then( e =>{
-					console.log(e)
 					if(e)
 						stop_queue.add({id:e.id,pid:e.pid})
 		    				.then(e =>resolve(e))

@@ -30,13 +30,14 @@ const masterProcess = ()=>{
 	cluster.on("online",(worker)=>{
 		console.log(`worker ${worker.process.pid} is listening...`)
 	})
-	cluster.on("exit",(worker,code)=>{
-		console.log(`Worker ${worker.pid} died with ${code}`)
+	cluster.on("exit",(worker,code,signal)=>{
+		console.log(`Worker ${worker.process.pid} died with ${code}`)
 		workers.push(cluster.fork())
 		workers[workers.length-1].on("message",async (msg)=>{
 			await handleFeedback(msg)	 
 		})
 	})
+
 
 }
 

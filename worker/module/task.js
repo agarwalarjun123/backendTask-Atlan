@@ -1,8 +1,7 @@
 const csv = require("csv-parser")
 const fs = require("fs")
 const task = require("./schema/task")
-const killTask = require("./kill")
-
+const killTask = require("./kill") 
 
 
 const stopTask = (pid,id)=>{
@@ -11,14 +10,15 @@ const stopTask = (pid,id)=>{
 		killTask(pid)
 			.then(e =>{
 				process.send({stop:{id}})
-				return resolve()
-			})
+				resolve()
+			})	
 			.catch((err)=>{
 				process.send({error:err})
-				return reject(new Error(err))
+				reject({error:err})
 			})
-
+	
 	})
+	
 }
 
 

@@ -2,7 +2,8 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const cors= require("cors")
-const socket =require("./module/socket") 
+const socket =require("./module/socket")
+require("./module/feedback_handlers") 
 
 // for verbose logging-
 app.use(require("morgan")(process.env.logenv))

@@ -2,7 +2,7 @@ require("dotenv").config()
 
 
 const cluster = require("cluster")
-
+const {stop_queue} = require("./module/queue_init")
 const numCPUs = require("os").cpus().length
 
 const workers = []
@@ -23,7 +23,8 @@ const masterProcess = ()=>{
 		console.log(`Forking process number ${i}...`)
 		workers.push(cluster.fork())
 		workers[i].on("message",async (msg)=>{
-			await handleFeedback(msg)	 
+			
+			await handleFeedback(msg)
 		})
         
 	}
@@ -31,11 +32,22 @@ const masterProcess = ()=>{
 		console.log(`worker ${worker.process.pid} is listening...`)
 	})
 	cluster.on("exit",(worker,code,signal)=>{
-		console.log(`Worker ${worker.process.pid} died with ${code}`)
+		console.log(`Worker ${worker.process.pid} died with ${code} with ${signal}`)
+		
 		workers.push(cluster.fork())
 		workers[workers.length-1].on("message",async (msg)=>{
 			await handleFeedback(msg)	 
 		})
+	})
+
+	stop_queue.process(async (job)=>{
+		try{
+			process.kill(job.data.pid,"SIGKILL")
+			await handleFeedback({stop:{id:job.data.id}})
+		}
+		catch(e){
+			console.log(e)
+		}
 	})
 
 
@@ -44,6 +56,7 @@ const masterProcess = ()=>{
 const childProcess = () => {
 		
 	require("./module/exec")
+
 	
 }
 

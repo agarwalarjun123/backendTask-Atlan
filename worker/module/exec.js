@@ -4,13 +4,9 @@ const {doTask,stopTask} = require("./task")
 
 start_queue.process(async (job) =>{
 	
-	await doTask("./module/task.csv",job.data.id)
+	await doTask("./task.csv",job.data.id)
 })
 
 
 
-stop_queue.process(async (job)=>{
-	await stopTask(job.data.pid,job.data.id)
-	
-})
 

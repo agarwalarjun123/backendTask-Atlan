@@ -42,10 +42,22 @@ const stopTask = (id) => {
 	})
 }
 
-
+const getTask = ()=>{
+	return new Promise((resolve,reject)=>{
+		task.find()
+			.then((e)=>{
+				resolve(e)
+			})
+			.catch((err)=>{
+				return reject(err)
+			})
+	})
+	
+}
 
 module.exports = {
 	startTask,
-	stopTask
+	stopTask,
+	getTask
 	
 }

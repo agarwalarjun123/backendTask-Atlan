@@ -9,7 +9,8 @@ const x =  mongoose.model("file",new mongoose.Schema({
 	taskId:{
 		type:String
 	},
-	processId:String
+	processId:String,
+	o:Object
 
 }))
 module.exports = x

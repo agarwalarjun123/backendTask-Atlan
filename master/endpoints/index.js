@@ -1,7 +1,8 @@
 const router = require("express").Router()
 const {
 	startTask,
-	stopTask
+	stopTask,
+	getTask
 } = require("../module/task")
 
 router.get("/start",(req,res,next)=>{
@@ -16,5 +17,11 @@ router.post("/stop",(req,res,next)=>{
 		.catch((err)=>next(new Error(err)))
         
 })
-
+router.get("/tasks",(req,res,next)=>{
+	getTask()
+		.then(e =>{
+			res.json({e})
+		})
+		.catch((err)=>next(err))
+})
 module.exports = router

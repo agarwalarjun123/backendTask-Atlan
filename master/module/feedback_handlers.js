@@ -13,12 +13,12 @@ start_feedback.process((job)=>{
 })
 
 stop_feedback.process((job)=>{
-
+	console.log(job.data.id)
 	task.findByIdAndUpdate(job.data.id,{
 		$set:{
 			status:"terminated"
 		}
-	}).then().catch((err)=>console.log({err}))
+	}).then((e)=>console.log(`Job Stopped ${job.data.id}`)).catch((err)=>console.log({err}))
     
     
 })
@@ -30,12 +30,14 @@ task_completion.process((job)=>{
 			status:"task completed"
 		}
 	})
-		.then()
+		.then(()=>console.log("Job completed"))
 		.catch((err)=>console.log({err}))
     
     
 })
 error_queue.process((job)=>{
+
+	console.log(job.data.error)
 	task.findByIdAndUpdate(job.data.id,{
 		$set:{
 			status:`error:${job.data.error}`

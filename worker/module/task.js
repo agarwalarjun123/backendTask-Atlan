@@ -1,32 +1,13 @@
 const csv = require("csv-parser")
 const fs = require("fs")
 const task = require("./schema/task")
-const {stop_queue} = require("./queue_init")
 const mongoose = require("mongoose")
-// const killTask = require("./kill") 
-
-
-// const stopTask = (pid,id)=>{
-// 	return new Promise((resolve,reject)=>{
-
-// 		killTask(pid)
-// 			.then(e =>{
-// 				process.send({stop:{id}})
-// 				resolve()
-// 			})	
-// 			.catch((err)=>{
-// 				process.send({error:err})
-// 				reject({error:err})
-// 			})
-	
-// 	})
-	
-// }
 
 
 
 const doTask = (file,id)=>{
 	return new Promise((resolve,reject)=>{
+		
 		console.log(`task ${id} starting ########`)
 
 		

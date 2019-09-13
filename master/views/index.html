@@ -65,7 +65,7 @@
       About Us Section
     ============================-->
     <section id="about">
-      <h3>Current Running</h3>
+      <h3>Current Running Tasks</h3>
       <div class="container" id ="running">
         <table>
 
@@ -96,7 +96,7 @@
 
         </table>
       </div>
-      <a class="btn btn-danger" id="add-task">Add Task</a>
+      <center><a class="btn btn-danger" id="add-task">Add Task</a></center>
     </section><!-- #about -->
 
     <!--==========================
@@ -220,99 +220,77 @@
   <!-- Contact Form JavaScript File -->
   <script src="contactform/contactform.js"></script>
   <script>
-  
-  $.ajax({
-    url:"http://localhost:3000/tasks",
-    success:(result,status,xhr)=>{
-      $("#running table").empty();
-      $("#stopped table").empty();
-      $("#completed table").empty();
-      console.log(result.e)
-      result.e.forEach(e =>{
-        
-        if(e.status == "Running")
-          $("#running table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr><td><button class = "btn btn-primary stop" id="${e._id}">Stop</button></td></tr>`)
-        else if(e.status == "terminated")
-          $("#stopped table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr>`)
-        else if(e.status == "task completed")
-          $("#completed table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr>`)
 
-          })    
-      
-    },
-    error:(xhr,status,error) =>{
-        console.log(error)
-    }
-})
-$("#add-task").click(e=>{
-    let id = $(e).attr("id")
+  function f(){
     $.ajax({
-      url:"http://localhost:3000/start",
-      async:false,
-      success:(result,status,xhr)=>{
-        $.ajax({
-    url:"http://localhost:3000/tasks",
-    success:(result,status,xhr)=>{
-      $("#running table").empty();
-      $("#stopped table").empty();
-      $("#completed table").empty();
-      console.log(result.e)
-      result.e.forEach(e =>{
-        
-        if(e.status == "Running")
-          $("#running table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr><td><button class = "btn btn-primary stop" id="${e._id}">Stop</button></td></tr>`)
-        else if(e.status == "terminated")
-          $("#stopped table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr>`)
-        else if(e.status == "task completed")
-          $("#completed table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr>`)
-
-          })    
-      
-    },
-    error:(xhr,status,error) =>{
-        console.log(error)
-    }
-})
-      },
-      error:(xhr,status,error)=>{
-        console.log(error)
-      }
-    })
-
-})
-$(".stop").click((e)=>{
-  let id = $(e).attr("id")
-  $.ajax({
-    url:"http://localhost:3000/stop",
-    success:(result,status,xhr)=>{
-        $.ajax({
       url:"http://localhost:3000/tasks",
       success:(result,status,xhr)=>{
         $("#running table").empty();
         $("#stopped table").empty();
         $("#completed table").empty();
         console.log(result.e)
+        let i = 0;
         result.e.forEach(e =>{
-
+          
           if(e.status == "Running")
-            $("#running table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr><td><button class = "btn btn-primary stop" id="${e._id}">Stop</button></td></tr>`)
+            $("#running table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr><tr><td><button onclick="v(this)" id="${e._id}" value="${e._id}" class = "btn btn-primary stop" >Stop</button></td></tr>`)
           else if(e.status == "terminated")
             $("#stopped table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr>`)
           else if(e.status == "task completed")
             $("#completed table").append(`<tr><td><b>Task</b></td><td>${e.task}</td></tr><tr><td><b>TaskId</b></td><td>${e._id}</td></tr><tr><td><b>TimeStamp</b></td><td>${e.timestamp}</td></tr>`)
-
+        
             })    
           
       },
       error:(xhr,status,error) =>{
           console.log(error)
-          }
-      })
+      }
+    })
+
+  }  
+  
+
+f()
+
+function v(e){
+  
+
+  let id = $(e).attr("id")
+  console.log(id)
+  $.ajax({
+    url:"http://localhost:3000/stop",
+    method:"POST",
+    contentType:"application/json",
+    data:JSON.stringify({
+      id
+    }),
+    success:(result,status,xhr)=>{
+      console.log(result)
+      f()
     },
     error:(xhr,status,error)=>{
       console.log(error)
     }
   })
+
+}
+
+$("#add-task").click(e=>{
+
+  $.ajax({
+      url:"http://localhost:3000/start",
+      success:(result,status,xhr)=>{
+    
+        f()
+    
+      },
+      error:(xhr,status,error)=>{
+      
+      console.log(error)
+      
+      }
+    })
+
 })
   
   

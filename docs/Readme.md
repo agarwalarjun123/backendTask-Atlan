@@ -42,11 +42,3 @@ Atlan is a data democratization company that helps teams collaborate frictionles
 
     chmod +x run
     ./run
-    
-    Go to http://localhost:3000/ to view the WebGUI Admin
-    
-    Master process logs can be accessed using
-    sudo docker logs -f node_master
-
-    Worker process logs can be accessed using
-    sudo docker logs -f node_worker

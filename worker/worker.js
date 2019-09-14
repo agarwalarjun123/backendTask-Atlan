@@ -42,7 +42,7 @@ const masterProcess = ()=>{
 
 	stop_queue.process(async (job)=>{
 		try{
-			process.kill(job.data.pid,"SIGKILL")
+			process.kill(job.data.pid,"SIGTERM")
 			await handleFeedback({stop:{id:job.data.id}})
 		}
 		catch(e){
